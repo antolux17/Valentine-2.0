@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Oi Marì 💘</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+}
+
+/* hearts — FIX: pointer-events disabled */
+.heart {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    transform: rotate(45deg);
+    animation: float 18s linear infinite;
+    pointer-events: none; /* 🔥 FIX */
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+}
+
+.heart::before {
+    top: -7px;
+    left: 0;
+}
+
+.heart::after {
+    left: -7px;
+    top: 0;
+}
+
+@keyframes float {
+    0% { transform: translateY(110vh) rotate(45deg); opacity: 0; }
+    15% { opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    padding: 32px;
+    max-width: 420px;
+    width: 100%;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(24px);
+    border-radius: 32px;
+    animation: fadeIn 1.2s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(14px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+h1 {
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+}
+
+p {
+    font-size: 1.1rem;
+    min-height: 30px;
+    margin-bottom: 32px;
+    color: #e5e5e7;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+}
+
+button {
+    border: none;
+    border-radius: 22px;
+    padding: 14px 34px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.35s ease;
+}
+
+#yes {
+    background: #0A84FF;
+    color: white;
+}
+
+#no {
+    background: rgba(255,255,255,0.25);
+    color: #fff;
+}
+
+.final {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+for (let i = 0; i < 12; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = 14 + Math.random() * 10 + "s";
+    document.body.appendChild(heart);
+}
+</script>
+
+<div class="container" id="main">
+    <h1>Oi Marì 💕</h1>
+    <p id="message">Will you be my Valentine?</p>
+
+    <div class="buttons">
+        <button id="yes">YES 💙</button>
+        <button id="no">NO 🙄</button>
+    </div>
+</div>
+
+<div class="container final" id="final">
+    <h1>Perfect 💘</h1>
+    <p>February 14th is ours.<br>Can’t wait to see you.</p>
+</div>
+
+<script>
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const message = document.getElementById("message");
+const main = document.getElementById("main");
+const final = document.getElementById("final");
+
+let noCount = 0;
+let yesScale = 1;
+
+const noMessages = [
+    "Are you sure? 😇",
+    "Think again… 😏",
+    "Come on… 🥺",
+    "You don’t mean that 😌",
+    "No escape now 💕"
+];
+
+noBtn.addEventListener("click", () => {
+    noCount++;
+    yesScale += 0.25;
+    yesBtn.style.transform = `scale(${yesScale})`;
+    message.textContent = noMessages[Math.min(noCount - 1, noMessages.length - 1)];
+    noBtn.style.transform = `scale(${Math.max(1 - noCount * 0.15, 0.45)})`;
+
+    if (noCount >= 3) {
+        noBtn.style.transform +=
+          ` translate(${Math.random()*200-100}px, ${Math.random()*200-100}px)`;
+    }
+
+    if (noCount >= 5) {
+        noBtn.style.display = "none";
+    }
+});
+
+yesBtn.addEventListener("click", () => {
+    main.style.display = "none";
+    final.style.display = "block";
+});
+</script>
+
+</body>
+</html>
